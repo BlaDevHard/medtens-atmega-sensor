@@ -16,7 +16,9 @@ da qualidade do fornecimento de energia elétrica. Os demais:
 
 ## Estado atual
 
-`v0.1.0` — cálculo RMS funcional, saída em texto ASCII via UART 9600 8N1.
+`v0.1.2` — cálculo RMS funcional, saída em texto ASCII via UART 9600 8N1;
+`calibration_factor` recalibrado contra multímetro Aneng; limiar de
+detecção de queda elevado para 30 V.
 
 A evolução para frame binário com CRC16 está planejada para `v0.2.0`
 (ver [CHANGELOG.md](CHANGELOG.md) e issues).
@@ -39,7 +41,9 @@ pio device monitor -b 9600 # monitora saída
 
 ## Parâmetros relevantes (src/main.cpp)
 
-- `calibration_factor = 0.85` — ajuste empírico por instância do ZMPT101B
+- `calibration_factor = 0.8642` — ajuste empírico por instância do ZMPT101B
+  (recalibrado em 2026-04-19 contra multímetro Aneng: 121.9 V vs. 119.9 V
+  lidos com fator 0.85)
 - `OFFSET_ADC = 512` — ponto médio do ADC de 10 bits com Vref = AVcc
 - Janela de amostragem: 3000 leituras × ~10 µs ≈ 2 ciclos de 60 Hz
 

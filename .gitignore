@@ -3,3 +3,7 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/ipch
+
+# Ferramentas de build/IDE que n\u00e3o pertencem ao reposit\u00f3rio
+compile_commands.json
+src/*.code-workspace

@@ -13,7 +13,10 @@
 #define REDE_FREQUENCIA 60
 #define OFFSET_ADC 512
 
-float calibration_factor = 0.85;
+// Calibração empírica vs. multímetro Aneng (2026-04-19):
+// leitura gadget 119.9 V com fator 0.85 → referência 121.9 V
+// fator = 0.85 * (121.9 / 119.9) ≈ 0.8642
+float calibration_factor = 0.8642;
 
 // Inicialização da comunicação Serial (UART)
 void uart_init(unsigned int ubrr) {
@@ -77,7 +80,11 @@ int main(void) {
         float valor_rms = get_voltage_rms();
         float voltagem_final = valor_rms * calibration_factor;
 
-        if (voltagem_final < 10.0) {
+        // Limiar de 30 V: sem rede, o ZMPT101B capta ruído/acoplamento
+        // do fio aberto e o RMS calculado fica entre 10 e 14 V. Qualquer
+        // tensão de rede real (mesmo subtensão crítica PRODIST) fica bem
+        // acima desse valor.
+        if (voltagem_final < 30.0) {
             uart_puts("QUEDA NA REDE\r\n");
         } else {
             // Converte float para string para enviar via UART
